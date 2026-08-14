@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+/*@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+*/
+
+@import url("https://googleapis.com");
 
 @tailwind base;
 @tailwind components;
@@ -7,4 +10,247 @@
 #plasmo-shadow-container {
   all: initial;
   box-sizing: border-box;
+}
+/*::::::::::::::::::::: CSS :::::::::::::::::::::*/
+@layer components {
+  :root {
+    --bg-main: #0f111a;
+    --bg-card: #1e2235;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --danger: #ef4444;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --radius: 10px;
+    --transition: all 0.2s ease-in-out;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* MODIFICADO PARA UX: Ancho de 350px y control de desbordamiento */
+  .popup-container {
+    width: 350px; 
+    padding: 20px;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    box-shadow: var(--shadow);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    box-sizing: border-box;
+    min-height: 180px; 
+    overflow-x: hidden; 
+  }
+
+  .popup-container * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .popup-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+    color: var(--text-main);
+  }
+
+  .input-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  /* MODIFICADO PARA UX: Botones e inputs más altos (44px+) */
+  .input-field {
+    flex: 1;
+    padding: 12px 14px;
+    background-color: var(--bg-card);
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: var(--transition);
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .input-field::placeholder {
+    color: var(--text-muted);
+  }
+
+  .btn-add {
+    padding: 0 18px;
+    background-color: var(--accent);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: var(--transition);
+    min-height: 44px; 
+  }
+
+  .btn-add:hover {
+    background-color: var(--accent-hover);
+  }
+
+  .btn-add:active {
+    transform: scale(0.97);
+  }
+
+  /* MODIFICADO PARA UX: Lista con espacio interno para separar del scroll */
+  .reminder-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 280px; 
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .reminder-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  .reminder-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-break: break-word;
+    padding-right: 8px;
+    color: var(--text-main);
+  }
+
+  .btn-delete {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-delete:hover {
+    color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+
+  .empty-message {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 20px 0;
+    font-style: italic;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+    /* ==========================================================================
+     NUEVAS INTERACCIONES (COMPLETADO Y BORRAR TODO)
+     ========================================================================== */
+
+  /* El contenedor del texto ahora es un botón invisible de clic */
+  .reminder-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    cursor: pointer;
+  }
+
+  /* Checkbox simulado con CSS puro */
+  .reminder-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    border-radius: 4px;
+    display: inline-block;
+    transition: var(--transition);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Efecto hover al pasar sobre el recordatorio */
+  .reminder-content:hover .reminder-checkbox {
+    border-color: var(--accent);
+  }
+
+  /* Estilos cuando el recordatorio está COMPLETADO */
+  .reminder-item.is-completed {
+    opacity: 0.5; /* Se vuelve sutilmente transparente */
+  }
+
+  .reminder-item.is-completed .reminder-checkbox {
+    background-color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* Crear una pequeña marca de "Check" blanca dentro del checkbox */
+  .reminder-item.is-completed .reminder-checkbox::after {
+    content: "✓";
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+  }
+
+  /* Efecto de texto tachado suave */
+  .reminder-item.is-completed .reminder-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  /* Botón para borrar todo en la parte inferior */
+  .btn-clear-all {
+    width: 100%;
+    margin-top: 14px;
+    padding: 8px;
+    background: none;
+    border: 1px dashed rgba(239, 68, 68, 0.4);
+    border-radius: var(--radius);
+    color: var(--danger);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .btn-clear-all:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-style: solid;
+    border-color: var(--danger);
+  }
+
+  .btn-clear-all:active {
+    transform: scale(0.99);
+  }
+
 }
