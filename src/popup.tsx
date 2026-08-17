@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useStorage } from "@plasmohq/storage/hook"
 import "./style.css"
+import { Pin } from "lucide-react"
 
 // Estructura moderna del recordatorio
 interface Recordatorio {
@@ -47,13 +48,17 @@ export default function IndexPopup() {
     }
   }
 
-  return (
-    <div className="popup-container">
-      <h3 className="popup-title">Mis Recordatorios</h3>
+return (
+  <div className="popup-container">
+    <h3 className="popup-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <span>OfficePost</span>
+      <Pin size={20} />
+    </h3>
 
       <div className="input-group">
         <input
           type="text"
+          maxLength={300}
           placeholder="Ej. Revisar correo..."
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
